@@ -21,4 +21,4 @@ function logger(req, res, next) {
     next()
 }
 
-module.exports = server
+module.exports = server;
