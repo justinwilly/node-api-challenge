@@ -1,27 +1,24 @@
-const express = require("express");
-const helmet = require("helmet");
+const express = require('express')
 
-const projectRouter = require("./data/helpers/projectRouter");
-const actionsRouter = require("./data/helpers/actionsRouter");
+const server = express()
 
-const server = express();
+const projectRouter = require('./api/projectRouter')
+const actionRouter = require('./api/actionRouter')
 
-server.use(helmet());
-server.use(express.json());
-server.use(logger);
-server.use("/api/projects", projectRouter, actionsRouter);
+server.use(express.json())
 
-server.get("/", logger, (req, res) => {
-    res.send(`<h2>NODE API SPRINT CHALLANGE</h2>`);
-});
+server.use(logger)
 
+server.use('/api/projects', projectRouter)
+server.use('/api/actions', actionRouter)
 
-//custom middleware
+server.get('/', (req, res) => {
+    res.status(200).json({its: "working"})
+})
+
 function logger(req, res, next) {
-    console.log(
-        `${req.method} to ${req.originalUrl} at ${new Date().toISOString()}`
-    );
-    next();
+    console.log(`req: ${req.method} '${req.url}'`)
+    next()
 }
 
-module.exports = server;
+module.exports = server
